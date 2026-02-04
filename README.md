@@ -29,9 +29,9 @@
 *Kick-off week - no features to be planned here*
 
 ### Week 6
-**Feature 1:** [...]
+**Feature 1:** Frontend setup
 
-**Feature 2:** [...]
+**Feature 2:** Backend setup
 
 ### Week 7
 *Winter vacation - nothing planned.*
