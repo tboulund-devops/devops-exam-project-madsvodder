@@ -11,8 +11,6 @@
 > backend: C# ASP.net core
 > Database: MsSQL
 
-[...]
-
 ## Architecture
 
 > [!NOTE]
