@@ -7,8 +7,6 @@
 
 ## Tech-stack
 
-> [!NOTE]
-> Write a short description of your tech-stack here in terms of programming language(s) and database engine(s).
 > Frontend: Angular
 > backend: C# ASP.net core
 > Database: MsSQL
