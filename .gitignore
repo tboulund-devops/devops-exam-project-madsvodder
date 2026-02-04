@@ -1,0 +1,68 @@
+############################
+# OS / Editor
+############################
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+*.swp
+
+############################
+# .NET / ASP.NET Core
+############################
+# Build results
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS cache
+**/.vs/
+
+# Publish output
+**/publish/
+
+############################
+# Angular / Node
+############################
+# Dependencies
+**/node_modules/
+
+# Angular build output
+frontend/dist/
+frontend/.angular/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+**/*.log
+
+############################
+# Environment files
+############################
+**/.env
+**/.env.*
+appsettings.Development.json
+appsettings.Local.json
+
+############################
+# Secrets
+############################
+**/secrets.json
+
+############################
+# Test results
+############################
+**/TestResults/
+
+############################
+# Coverage
+############################
+**/coverage/
