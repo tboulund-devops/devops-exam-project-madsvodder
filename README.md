@@ -13,10 +13,11 @@ Database: MsSQL
 
 ## Architecture
 
-> [!NOTE]
-> Write a short explanation of your planned architecture here.
+The frontend is built with Angular and is responsible for the user interface and user interactions. It communicates with the backend through a RESTful API.
 
-[...]
+The backend is an ASP.NET Core Web API written in C#, which handles business logic, data validation, and communication with the database. Data is stored in an MS SQL Server database and accessed using Entity Framework Core.
+
+This separation keeps the frontend and backend loosely coupled, making the application easier to maintain and extend.
 
 ## Feature plan
 
