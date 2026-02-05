@@ -1,15 +1,15 @@
-# [...]
+# FreshTomatoes 🍅
 
-> [!NOTE]
-> Provide a project title in the heading above. Just below this note write a short description of the application you plan to build.
+Fresh Tomatoes is a simple, stripped-down version of Rotten Tomatoes. It’s a small movie database where users can browse movies and leave ratings.
+The goal of the project is to keep things simple and focus on the basics of a full-stack CRUD movie rating app with a clean, user-friendly interface.
 
 [...]
 
 ## Tech-stack
 
-> Frontend: Angular
-> backend: C# ASP.net core
-> Database: MsSQL
+Frontend: Angular
+Backend: C# ASP.net core
+Database: MsSQL
 
 ## Architecture
 
@@ -19,11 +19,6 @@
 [...]
 
 ## Feature plan
-
-> [!NOTE]
-> For each week below write a short description of the features you plan to build for your project this week.
-
-[...]
 
 ### Week 5
 *Kick-off week - no features to be planned here*
