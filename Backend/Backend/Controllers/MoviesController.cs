@@ -12,4 +12,16 @@ public class MoviesController : ControllerBase
     {
         return null;
     }
+    
+    [HttpGet]
+    public IEnumerable<IActionResult> GetSpecific()
+    {
+        return null;
+    }
+    
+    [HttpGet]
+    public IEnumerable<IActionResult> GetTop10()
+    {
+        return null;
+    }
 }
