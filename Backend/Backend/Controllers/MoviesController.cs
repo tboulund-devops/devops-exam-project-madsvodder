@@ -24,4 +24,10 @@ public class MoviesController : ControllerBase
     {
         return null;
     }
+    
+    [HttpGet]
+    public IEnumerable<IActionResult> GetTop5()
+    {
+        return null;
+    }
 }
