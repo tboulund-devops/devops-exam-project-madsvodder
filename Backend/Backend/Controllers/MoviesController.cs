@@ -30,4 +30,10 @@ public class MoviesController : ControllerBase
     {
         return null;
     }
+    
+    [HttpGet]
+    public IEnumerable<IActionResult> GetTop()
+    {
+        return null;
+    }
 }
