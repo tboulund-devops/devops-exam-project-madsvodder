@@ -1,23 +1,68 @@
+using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class MoviesController : ControllerBase
 {
+    private readonly MovieService _movies;
 
-    [HttpGet]
-    public IEnumerable<IActionResult> GetAll()
+    public MoviesController(MovieService movies)
     {
-        return null;
+        _movies = movies;
     }
     
+    // GET/api/movies/ - Gets all movies
     [HttpGet]
-    public IEnumerable<IActionResult> GetSpecific()
+    public async Task<IActionResult> GetAll()
     {
-        return null;
+        var movies= await _movies.GetAllAsync();
+        return Ok(movies);
     }
+    
+    //GET /api/movies/8
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetSpecific(int id)
+    {
+        var movie = await _movies.GetByIdAsync(id);
+        if (movie is null) return NotFound();
+        return Ok(movie);
+    }
+    
+    // POST /api/movies
+    [HttpPost]
+    public async Task<IActionResult> Create(Movie movie)
+    {
+        var newMovie = _movies.CreateAsync(movie);
+        return CreatedAtAction(nameof(GetSpecific), new { id = newMovie.Id }, newMovie);
+    }
+    
+    //PUT /api/movies/23
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, Movie movie)
+    {
+        if (id != movie.Id)
+            return BadRequest();
+
+        var success = await _movies.UpdateAsync(id, movie);
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
+    
+    //DELETE /api/movies/45
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deleted = await _movies.DeleteAsync(id);
+        if (!deleted)
+            return NotFound();
+
+        return NoContent();
+    }
+    
     
     [HttpGet]
     public IEnumerable<IActionResult> GetTop10()
