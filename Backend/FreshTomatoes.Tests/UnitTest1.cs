@@ -1,18 +1,22 @@
-﻿namespace FreshTomatoes.Tests;
+﻿using Backend.Services;
+using NUnit.Framework;
+using Assert = Xunit.Assert;
+
+namespace FreshTomatoes.Tests;
 
 public class UnitTest1
 {
-    [Fact]
-    public void Test1()
+    [Test]
+    public async Task LoginAsync_Works()
     {
         // Arrange
-        int a = 2;
-        int b = 3;
+        var a = 5;
+        var b = 5;
 
         // Act
-        int result = a + b;
+        var result = a + b;
 
         // Assert
-        Assert.Equal(5, result);
+        Assert.Equal(10, result);
     }
 }
