@@ -1,35 +1,14 @@
-name: Static Code Analysis
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
-
-      - name: Install required tools
+- name: Install required tools
         run: |
           dotnet tool install -g dotnet-sonarscanner
           dotnet tool install -g dotnet-reportgenerator-globaltool
 
-      - name: Add dotnet tools to PATH
-        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
       - name: Start Static Code Analysis
         run: |
           dotnet sonarscanner begin \
-          /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
-          /d:sonar.host.url="${{ secrets.SONAR_URL }}" \
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /k:"FreshTomatoes" \
+          /d:sonar.host.url="http://62.164.217.208:9000/" \
+          /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48" \
           /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
           /d:sonar.qualitygate.wait=true \
           /d:sonar.qualitygate.timeout=300
@@ -38,9 +17,9 @@ jobs:
         run: dotnet build
 
       - name: Run unit tests
-        run: dotnet test --collect:"Xplat Code Coverage" --results-directory TestResults
+        run: dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
 
-      - name: Generate Report
+      - name: Generate report
         run: |
           reportgenerator \
           -reports:TestResults/**/coverage.cobertura.xml \
@@ -50,4 +29,4 @@ jobs:
       - name: Complete Static Code Analysis
         run: |
           dotnet sonarscanner end \
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48"
