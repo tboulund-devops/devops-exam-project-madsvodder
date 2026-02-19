@@ -37,6 +37,9 @@ jobs:
       - name: Run unit tests
         run: dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
 
+      - name: Find coverage files
+        run: find . -name "*.xml"
+
       - name: Generate report
         run: |
           reportgenerator \
