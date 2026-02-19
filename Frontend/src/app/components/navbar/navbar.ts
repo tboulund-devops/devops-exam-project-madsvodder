@@ -11,4 +11,5 @@ import {RouterLink} from '@angular/router';
 })
 export class Navbar {
 
+  protected readonly localStorage = localStorage;
 }

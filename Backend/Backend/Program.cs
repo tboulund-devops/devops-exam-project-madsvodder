@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors();
 
-builder.Services.AddDbContext<MovieContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<MovieContext>(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<MovieService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

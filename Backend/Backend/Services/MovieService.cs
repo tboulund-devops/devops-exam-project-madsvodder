@@ -5,9 +5,9 @@ namespace Backend.Services;
 
 public class MovieService
 {
-    private readonly MovieContext _context;
+    private readonly AppDbContext _context;
 
-    public MovieService(MovieContext context)
+    public MovieService(AppDbContext context)
     {
         _context = context;
     }

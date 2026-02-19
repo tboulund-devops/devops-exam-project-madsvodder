@@ -1,12 +1,14 @@
+using Backend.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Data;
 
-public class MovieContext : DbContext
+public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
 
-    public MovieContext(DbContextOptions<MovieContext> options) : base(options){ }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){ }
 
+    public DbSet<User> Users => Set<User>();
     public DbSet<Movie> Movies => Set<Movie>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
