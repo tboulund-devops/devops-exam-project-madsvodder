@@ -35,7 +35,7 @@ public class MoviesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Movie movie)
     {
-        var newMovie = _movies.CreateAsync(movie);
+        var newMovie = await _movies.CreateAsync(movie);
         return CreatedAtAction(nameof(GetSpecific), new { id = newMovie.Id }, newMovie);
     }
     
