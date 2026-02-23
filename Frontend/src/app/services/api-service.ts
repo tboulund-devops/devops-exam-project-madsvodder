@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {UserDtoInterface} from '../interfaces/user-dto-interface';
 import {Observable} from 'rxjs';
+import {Movie} from '../interfaces/movie';
 
 @Injectable({
   providedIn: 'root',
@@ -9,14 +10,19 @@ import {Observable} from 'rxjs';
 export class ApiService {
   private http = inject(HttpClient);
 
-  private registerUrl = 'http://localhost:5102/api/Auth/register';
-  private loginUrl = 'http://localhost:5102/api/Auth/login';
+  private url = 'http://localhost:5102/api';
 
+  // User
   register(request: UserDtoInterface): Observable<any> {
-    return this.http.post(this.registerUrl, request);
+    return this.http.post(`${this.url}/Auth/register`, request);
   }
 
   login(request: UserDtoInterface): Observable<any> {
-    return this.http.post(this.loginUrl, request);
+    return this.http.post(`${this.url}/Auth/login`, request);
+  }
+
+  // Movies
+  getAllMovies(): Observable<Movie[]> {
+    return this.http.get<Movie[]>(`${this.url}/movies`)
   }
 }

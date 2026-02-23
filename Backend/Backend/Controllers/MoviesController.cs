@@ -5,20 +5,14 @@ namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MoviesController : ControllerBase
+public class MoviesController(MovieService movieService) : ControllerBase
 {
-    private readonly MovieService _movies;
-
-    public MoviesController(MovieService movies)
-    {
-        _movies = movies;
-    }
     
     // GET/api/movies/ - Gets all movies
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var movies= await _movies.GetAllAsync();
+        var movies= await movieService.GetAllAsync();
         return Ok(movies);
     }
     
@@ -26,7 +20,7 @@ public class MoviesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetSpecific(int id)
     {
-        var movie = await _movies.GetByIdAsync(id);
+        var movie = await movieService.GetByIdAsync(id);
         if (movie is null) return NotFound();
         return Ok(movie);
     }
@@ -35,7 +29,7 @@ public class MoviesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Movie movie)
     {
-        var newMovie = await _movies.CreateAsync(movie);
+        var newMovie = await movieService.CreateAsync(movie);
         return CreatedAtAction(nameof(GetSpecific), new { id = newMovie.Id }, newMovie);
     }
     
@@ -46,7 +40,7 @@ public class MoviesController : ControllerBase
         if (id != movie.Id)
             return BadRequest();
 
-        var success = await _movies.UpdateAsync(id, movie);
+        var success = await movieService.UpdateAsync(id, movie);
         if (!success)
             return NotFound();
 
@@ -56,29 +50,10 @@ public class MoviesController : ControllerBase
     //DELETE /api/movies/45
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _movies.DeleteAsync(id);
+        var deleted = await movieService.DeleteAsync(id);
         if (!deleted)
             return NotFound();
 
         return NoContent();
-    }
-    
-    
-    [HttpGet]
-    public IEnumerable<IActionResult> GetTop10()
-    {
-        return null;
-    }
-    
-    [HttpGet]
-    public IEnumerable<IActionResult> GetTop5()
-    {
-        return null;
-    }
-    
-    [HttpGet]
-    public IEnumerable<IActionResult> GetTop()
-    {
-        return null;
     }
 }
