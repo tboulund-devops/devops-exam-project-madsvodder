@@ -27,8 +27,8 @@ jobs:
         run: |
           dotnet sonarscanner begin \
           /k:"FreshTomatoes" \
-          /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /d:sonar.host.url="http://62.164.217.208:9000/" \
+          /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48" \
           /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
           /d:sonar.qualitygate.wait=true \
           /d:sonar.qualitygate.timeout=300
