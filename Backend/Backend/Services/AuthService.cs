@@ -15,10 +15,10 @@ public class AuthService(AppDbContext context, IConfiguration config) : IAuthSer
 {
     public async Task<User?> RegisterAsync(UserDTO request)
     {
-        if (await context.Users.AnyAsync(u => u.Username.ToLower() == request.Username.ToLower()))
+        if (await context.Users.AnyAsync(u => string.Equals(u.Username,request.Username)))
             return null;
 
-        if (await context.Users.AnyAsync(u => u.Email.ToLower() == request.Email.ToLower()))
+        if (await context.Users.AnyAsync(u => string.Equals(u.Email, request.Email)))
             return null;
 
         var user = new User();
@@ -39,7 +39,7 @@ public class AuthService(AppDbContext context, IConfiguration config) : IAuthSer
     public async Task<AuthResponseDto?> LoginAsync(UserDTO request)
     {
 
-        var user = await context.Users.SingleOrDefaultAsync(u => u.Email.ToLower() == request.Email.ToLower());
+        var user = await context.Users.SingleOrDefaultAsync(u => string.Equals(u.Email, request.Email));
 
         if (user is null)
             return null;
