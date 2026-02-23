@@ -3,6 +3,8 @@
   border-radius: 10px;
   transition: 0.3s;
   justify-content: flex-start;
+  width: 200px;
+  margin: 20px;
 }
 
 .card:hover {

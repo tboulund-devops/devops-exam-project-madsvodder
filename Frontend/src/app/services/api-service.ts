@@ -25,4 +25,8 @@ export class ApiService {
   getAllMovies(): Observable<Movie[]> {
     return this.http.get<Movie[]>(`${this.url}/movies`)
   }
+
+  sendRating(request: Movie) {
+    return this.http.put(`${this.url}/movies/` + request.id, request);
+  }
 }
