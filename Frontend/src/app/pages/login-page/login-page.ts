@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ApiService} from '../../services/api-service';
 import {UserDtoInterface} from '../../interfaces/user-dto-interface';
@@ -17,6 +17,7 @@ import {UserDtoInterface} from '../../interfaces/user-dto-interface';
 export class LoginPage {
 
   private apiService = inject(ApiService);
+  private router = inject(Router);
 
   email = new FormControl('');
   password = new FormControl('');
@@ -38,6 +39,8 @@ export class LoginPage {
         localStorage.setItem('username', JSON.stringify(response.username));
         localStorage.setItem('email', JSON.stringify(response.email));
 
+        // Navigate back
+        this.router.navigate(['/']).then(r => console.log(r));
 
       },
       error: error => console.log(error),
