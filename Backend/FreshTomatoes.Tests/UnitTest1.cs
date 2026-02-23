@@ -35,9 +35,10 @@ public class UnitTest1()
         };
 
         // Act
-        var user = users.SingleOrDefault(u => u.Email.ToLower() == request.Email.ToLower());
+        var user = users.SingleOrDefault(u => string.Equals(u.Email, request.Email));
+        
 
         // Assert
-        Assert.Equal(request.Email, user.Email);
+        Assert.Equal(request.Email, user!.Email);
     }
 }
