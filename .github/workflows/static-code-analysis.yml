@@ -14,7 +14,9 @@ jobs:
         working-directory: Backend
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones disabled for better SonarQube analysis
 
       - name: Install required tools
         run: |
@@ -50,4 +52,4 @@ jobs:
       - name: Complete Static Code Analysis
         run: |
           dotnet sonarscanner end \
-          /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48"
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
