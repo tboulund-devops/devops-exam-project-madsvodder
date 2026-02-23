@@ -38,7 +38,7 @@ public class MoviesController(MovieService movieService) : ControllerBase
     public async Task<IActionResult> Update(int id, Movie movie)
     {
         if (id != movie.Id)
-            return BadRequest();
+            return BadRequest("Movie not found. Wrong ID?");
 
         var success = await movieService.UpdateAsync(id, movie);
         if (!success)
