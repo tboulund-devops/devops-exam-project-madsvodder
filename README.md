@@ -33,9 +33,9 @@ This separation keeps the frontend and backend loosely coupled, making the appli
 *Winter vacation - nothing planned.*
 
 ### Week 8
-**Feature 1:** [...]
+**Feature 1:** Login system
 
-**Feature 2:** [...]
+**Feature 2:** Basic front end interface
 
 ### Week 9
 **Feature 1:** [...]
