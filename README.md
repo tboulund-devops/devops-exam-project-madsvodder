@@ -38,7 +38,7 @@ This separation keeps the frontend and backend loosely coupled, making the appli
 **Feature 2:** Basic front end interface
 
 ### Week 9
-**Feature 1:** [...]
+**Feature 1:** Rating system
 
 **Feature 2:** [...]
 
