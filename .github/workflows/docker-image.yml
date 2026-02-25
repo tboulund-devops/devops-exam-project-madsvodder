@@ -15,5 +15,4 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          cd Backend
-          docker build . --file Dockerfile --tag backend-image:$(date +%s)
+          docker docker build -t backend-image:latest -f Backend/Backend/Dockerfile .
