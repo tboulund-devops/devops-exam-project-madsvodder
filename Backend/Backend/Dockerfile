@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Backend/Backend.csproj", "Backend/"]
-RUN dotnet restore "Backend/Backend.csproj"
+RUN dotnet restore "Backend.csproj"
 COPY . .
 WORKDIR "/src/Backend"
 RUN dotnet build "./Backend.csproj" -c $BUILD_CONFIGURATION -o /app/build
