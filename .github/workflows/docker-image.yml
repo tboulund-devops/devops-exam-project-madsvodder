@@ -15,4 +15,4 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker docker build -t backend-image:latest -f Backend/Backend/Dockerfile .
+          docker build -t backend-image:latest -f Backend/Backend/Dockerfile .
