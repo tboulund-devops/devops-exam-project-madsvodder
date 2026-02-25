@@ -28,8 +28,8 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasMaxLength(2000);
 
             entity.Property(m => m.Year).IsRequired();
-            entity.Property(m => m.Rating).IsRequired();
-
+            entity.Property(m => m.Rating)
+            .IsRequired()
         });
     }
 }
