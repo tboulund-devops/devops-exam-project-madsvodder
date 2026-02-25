@@ -1,4 +1,5 @@
 using Backend.Entities;
+using Backend;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Data;
@@ -29,7 +30,7 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
 
             entity.Property(m => m.Year).IsRequired();
             entity.Property(m => m.Rating)
-            .IsRequired()
+                .IsRequired();
         });
     }
 }
