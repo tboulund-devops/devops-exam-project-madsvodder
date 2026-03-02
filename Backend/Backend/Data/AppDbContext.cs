@@ -1,5 +1,6 @@
 using Backend.Entities;
 using Backend;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Data;
@@ -11,6 +12,7 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Movie> Movies => Set<Movie>();
+    public DbSet<Rating> Ratings => Set<Rating>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,8 +31,22 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
                 .HasMaxLength(2000);
 
             entity.Property(m => m.Year).IsRequired();
-            entity.Property(m => m.Rating)
+        });
+
+        modelBuilder.Entity<Rating>(entity =>
+        {
+            entity.HasKey(r => r.Id);
+
+            entity.Property(r => r.Score)
                 .IsRequired();
+
+            entity.Property(r => r.Comment)
+                .HasMaxLength(1000);
+
+            entity.HasOne(r => r.Movie)
+                .WithMany(m => m.Ratings)
+                .HasForeignKey(r => r.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

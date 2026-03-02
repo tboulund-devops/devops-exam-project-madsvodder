@@ -43,7 +43,6 @@ public class MovieService
 
         oldMovie.Title = updated.Title;
         oldMovie.Year = updated.Year;
-        oldMovie.Rating = updated.Rating;
         oldMovie.Description = updated.Description;
 
         await _context.SaveChangesAsync();
