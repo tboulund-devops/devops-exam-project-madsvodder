@@ -30,6 +30,7 @@ jobs:
           /d:sonar.host.url="http://62.164.217.208:9000/" \
           /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48" \
           /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
+          /d:sonar.coverage.exclusions="**/Migrations/**" \
           /d:sonar.qualitygate.wait=true \
           /d:sonar.qualitygate.timeout=300
 
