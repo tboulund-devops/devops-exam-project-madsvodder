@@ -29,6 +29,8 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
+          allowUpdates: true
+          makeLatest: true
 
       # Setup Docker
       - name: Set up Docker Buildx
