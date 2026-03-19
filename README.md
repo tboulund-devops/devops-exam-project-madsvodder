@@ -19,6 +19,32 @@ The backend is an ASP.NET Core Web API written in C#, which handles business log
 
 This separation keeps the frontend and backend loosely coupled, making the application easier to maintain and extend.
 
+## CI/CD Workflows
+
+This project includes automated workflows to maintain code quality and documentation:
+
+### Daily Documentation Updater
+**File:** `.github/workflows/daily-doc-updater.md`
+
+Automatically reviews and updates project documentation based on recent code changes and merged pull requests. This workflow:
+- Scans merged PRs from the last 24 hours
+- Analyzes code changes to identify new features and modifications
+- Updates documentation files to reflect the latest codebase state
+- Follows the Diátaxis documentation framework (Tutorials, How-to Guides, Reference, Explanation)
+
+Runs daily at 6am UTC or can be triggered manually via workflow dispatch.
+
+### Daily Repo Status
+**File:** `.github/workflows/daily-repo-status.md`
+
+Creates daily repository status reports to track project health and activity. This workflow:
+- Gathers recent repository activity (issues, PRs, discussions, releases, code changes)
+- Generates GitHub issues with productivity insights and community highlights
+- Provides project recommendations and actionable next steps
+- Helps maintainers track progress and stay informed
+
+Runs daily or can be triggered manually via workflow dispatch.
+
 ## Feature plan
 
 ### Week 5
