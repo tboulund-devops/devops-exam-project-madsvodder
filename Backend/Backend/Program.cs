@@ -33,7 +33,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(options =>
     options
-        .WithOrigins("http://localhost:4200")
+        .WithOrigins("http://localhost:4200", "http://157.173.116.163:8000")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
@@ -45,5 +45,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();
