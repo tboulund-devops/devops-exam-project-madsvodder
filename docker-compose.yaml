@@ -2,4 +2,4 @@ services:
   web:
     image: ghcr.io/tboulund-devops/devops-exam-project-madsvodder/backend:staging
     ports:
-      - "8000:8000"
+      - "8000:8080"
