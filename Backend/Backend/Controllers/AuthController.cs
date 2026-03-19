@@ -28,7 +28,7 @@ namespace Backend.Controllers
         {
             var response = await authService.LoginAsync(request);
 
-            if (response is null)
+            if (response is null) // Adding this comment to test the docker workflow
                 return BadRequest("Invalid username or password.");
 
             return Ok(response);
