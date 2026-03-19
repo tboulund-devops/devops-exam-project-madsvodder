@@ -2,65 +2,59 @@ name: Build Backend Docker Image
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      # Checkout - No idea what this does
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    permissions:
+      contents: read
+      packages: write
 
-        # 1. Checkout med fuld historik
+    steps:
+      # Checkout with full history (needed for versioning)
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2. Beregn versionen
+      # Generate version
       - name: Get Custom Version
         id: semver
         uses: paulhatch/semantic-version@v5.4.0
         with:
-          # Indstillinger
           tag_prefix: "v"
-          major_pattern: "(MAJOR)" # Hvad kigger den efter for major bumps
-          minor_pattern: "(MINOR)" # Hvad kigger den efter for minor bumps
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
 
-        # Docker buildx - No idea what this does
+      # Setup Docker
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-        # Log in to the github container registry
+      # Login to GHCR
       - name: Log in to GHCR
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-        # Build the docker image
+      # Build & push
       - name: Build Docker image
         run: |
           docker build \
             -t ghcr.io/${{ github.repository }}/backend:staging \
-            -t ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version }} \
+            -t ghcr.io/${{ github.repository }}/backend:${{ steps.semver.outputs.version }} \
             ./Backend/Backend
-            .
-          docker push ghcr.io/${{ github.repository }} --all-tags
 
-      # Create release notes
+          docker push ghcr.io/${{ github.repository }}/backend --all-tags
+
+      # Create release
       - name: Create release notes
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.semver-app.outputs.version }}
+          tag: ${{ steps.semver.outputs.version }}
           generateReleaseNotes: true
-          body: |
-            This release inclused the following container image:
-              http://ghcr.io/${{ github.repository }}:${{ steps.semver-app.outputs.version }}
