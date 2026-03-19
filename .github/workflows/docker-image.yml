@@ -34,7 +34,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Login to GHCR
+      # Login to GHCR - This is where we save to docker image we create
       - name: Log in to GHCR
         uses: docker/login-action@v2
         with:
@@ -42,7 +42,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Build & push
+      # Build & push the docker image to the repository
       - name: Build Docker image
         run: |
           docker build \
@@ -52,9 +52,31 @@ jobs:
 
           docker push ghcr.io/${{ github.repository }}/backend --all-tags
 
-      # Create release
+      # Create release notes
       - name: Create release notes
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.semver.outputs.version }}
           generateReleaseNotes: true
+
+      # Deliver docker compose file to staging
+      - name: Deliver docker compose file to staging
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.STAGING_SERVER_IP }}
+          username: ${{ vars.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          source: "docker-compose.yaml"
+          target: dowa/
+
+      # Run docker compose on the staging server
+      - name: Run docker compose on the staging server
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ vars.STAGING_SERVER_IP }}
+          username: ${{ vars.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          script: |
+            cd dowa
+            docker compose pull
+            docker compose up -d
