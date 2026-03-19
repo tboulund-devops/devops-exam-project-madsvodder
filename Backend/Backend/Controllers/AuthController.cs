@@ -33,5 +33,13 @@ namespace Backend.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("check")]
+        public async Task<ActionResult<string>> Check(UserDTO request)
+        {
+            var message = "Hey this actually works";
+
+            return Ok(message);
+        }
     }
 }

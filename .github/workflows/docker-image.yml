@@ -29,9 +29,6 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
-          allowUpdates: true
-          makeLatest: true
-          commit: ${{ github.sha }} # ← this makes it actually create the git tag
 
       # Setup Docker
       - name: Set up Docker Buildx
