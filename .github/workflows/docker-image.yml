@@ -13,9 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout - No idea what this does
       - name: Checkout repository
         uses: actions/checkout@v4
 
+        # 1. Checkout med fuld historik
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2. Beregn versionen
+      - name: Get Custom Version
+        id: semver
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          # Indstillinger
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)" # Hvad kigger den efter for major bumps
+          minor_pattern: "(MINOR)" # Hvad kigger den efter for minor bumps
+          version_format: "${major}.${minor}.${patch}"
+
+        # Docker buildx - No idea what this does
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
