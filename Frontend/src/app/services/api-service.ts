@@ -23,7 +23,7 @@ export class ApiService {
 
   // Movies
   getAllMovies(): Observable<Movie[]> {
-    return this.http.get<Movie[]>(`${this.url}/movies`)
+    return this.http.get<Movie[]>(`${this.url}/movies`);
   }
 
   sendRating(request: Movie) {

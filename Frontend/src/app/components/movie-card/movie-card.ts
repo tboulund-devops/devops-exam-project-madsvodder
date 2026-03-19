@@ -18,21 +18,12 @@ export class MovieCard implements OnInit {
     console.log(this.movie);
   }
 
-  sendRatingRequest(value: string) {
-
-    // Create new movie with updated rating
-    let movie: Movie = {
-      title: this.movie()!.title,
-      id: this.movie()!.id,
-      rating: Number(value),
-      year: this.movie()!.year,
-      description: this.movie()!.description,
-    }
-
+  sendRatingRequest(value: string): void {
+    const movie = { ...this.movie(), rating: Number(value) };
     this.apiService.sendRating(movie).subscribe({
       next: result => console.log(result),
       error: err => console.error(err),
       complete: () => console.log('done')
-    })
+    });
   }
 }

@@ -18,6 +18,6 @@ export class Navbar {
   }
 
   getUsername(): string {
-    return <string>this.localStorage.getItem('username')
+    return this.localStorage.getItem('username') ?? '';
   }
 }
