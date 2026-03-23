@@ -20,6 +20,7 @@ public class MoviesController(MovieService movieService) : ControllerBase
     [HttpGet("GetSecond")]
     public async Task<IActionResult> GetSecond()
     {
+        // Kommentar
         var movie = await movieService.GetSecondAsync();
         return Ok(movie);
     }
