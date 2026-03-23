@@ -28,6 +28,9 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+        <Compile Update="**\Migrations\*.cs">
+            <SonarQubeExclude>true</SonarQubeExclude>
+        </Compile>
     </ItemGroup>
 
 </Project>
