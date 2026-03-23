@@ -20,6 +20,12 @@ public class MovieService
             .ToListAsync();
     }
 
+    public async Task<Movie> GetSecondAsync()
+    {
+        return await _context.Movies
+            .FirstOrDefaultAsync(m => m.Id == 1);
+    }
+
     public async Task<Movie?> GetByIdAsync(int id)
     {
         return await _context.Movies
