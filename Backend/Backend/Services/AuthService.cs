@@ -15,22 +15,20 @@ public class AuthService(AppDbContext context, IConfiguration config) : IAuthSer
 {
     public async Task<User?> RegisterAsync(UserDTO request)
     {
-        if (await context.Users.AnyAsync(u => string.Equals(u.Username,request.Username)))
+        if (await context.Users.AnyAsync(u => string.Equals(u.Username, request.Username)))
             return null;
 
         if (await context.Users.AnyAsync(u => string.Equals(u.Email, request.Email)))
             return null;
 
-        var user = new User();
+        var user = new User
+        {
+            Username = request.Username,
+            Email = request.Email,
+            PasswordHash = new PasswordHasher<User>().HashPassword(new User(), request.Password)
+        };
 
-        var hashedPassword = new PasswordHasher<User>()
-            .HashPassword(user, request.Password);
-
-        user.Username = request.Username;
-        user.Email = request.Email;
-        user.PasswordHash = hashedPassword;
-
-        context.Users.Add(user); // Only tracked (not saved) until SaveChangesAsync is called
+        context.Users.Add(user);
         await context.SaveChangesAsync();
 
         return user;

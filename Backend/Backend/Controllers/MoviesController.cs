@@ -57,6 +57,7 @@ public class MoviesController(MovieService movieService) : ControllerBase
     }
     
     //DELETE /api/movies/45
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         var deleted = await movieService.DeleteAsync(id);

@@ -20,8 +20,7 @@ export class MoviesGrid implements OnInit {
 
   apiService: ApiService = inject(ApiService);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.movies$ = this.apiService.getAllMovies();
-    console.log(this.movies$);
   }
 }

@@ -24,7 +24,7 @@ public class RatingsController(RatingService ratingService) : ControllerBase
     {
         var average = await ratingService.GetAverageScoreAsync(movieId);
         
-        if (average is null) return NotFound("No ratings was found for this movie");
+        if (average is null) return NotFound("No ratings were found for this movie");
         
         return Ok(new { movieId, average });
     }
