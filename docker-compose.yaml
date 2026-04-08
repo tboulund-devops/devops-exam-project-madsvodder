@@ -3,3 +3,10 @@ services:
     image: ghcr.io/tboulund-devops/devops-exam-project-madsvodder/backend:staging
     ports:
       - "8000:8080"
+
+  frontend:
+    image: ghcr.io/tboulund-devops/devops-exam-project-madsvodder/frontend:staging
+    ports:
+      - "4200:80"
+    depends_on:
+      - web
