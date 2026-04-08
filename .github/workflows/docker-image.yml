@@ -92,6 +92,7 @@ jobs:
         uses: grafana/k6-action@v0.3.1
         with:
           filename: k6/loadsite-rate.js
+          flags: --out json=results.json
         env:
           BASE_URL: ${{ vars.FRONTEND_STAGING_URL }}
 
