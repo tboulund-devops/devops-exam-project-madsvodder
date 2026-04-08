@@ -86,3 +86,18 @@ jobs:
             cd dowa
             docker compose pull
             docker compose up -d
+
+      # Run K6 Tests
+      - name: Run k6 load test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: k6/loadsite-rate.js
+        env:
+          BASE_URL: ${{ vars.FRONTEND_STAGING_URL }}
+
+      - name: Upload k6 results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-results
+          path: results.json
