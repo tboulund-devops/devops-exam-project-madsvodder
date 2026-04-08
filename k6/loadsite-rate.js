@@ -3,6 +3,7 @@
 import { group, sleep, check } from "k6";
 import http from "k6/http";
 import execution from "k6/execution";
+import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.2/index.js";
 
 export const options = {
   stages: [
@@ -115,4 +116,11 @@ export default function () {
     check(resp, { "status equals 204": (r) => r.status === 204 });
   });
   sleep(1);
+}
+
+export function handleSummary(data) {
+  return {
+    "results.json": JSON.stringify(data, null, 2),
+    stdout: textSummary(data, { indent: " ", enableColors: true }),
+  };
 }
