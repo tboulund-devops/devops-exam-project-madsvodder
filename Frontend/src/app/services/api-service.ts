@@ -1,8 +1,8 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {UserDtoInterface} from '../interfaces/user-dto-interface';
-import {Observable} from 'rxjs';
-import {Movie} from '../interfaces/movie';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { UserDtoInterface } from '../interfaces/user-dto-interface';
+import { Observable } from 'rxjs';
+import { Movie } from '../interfaces/movie';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import {Movie} from '../interfaces/movie';
 export class ApiService {
   private http = inject(HttpClient);
 
-  private url = 'http://localhost:5102/api';
+  private url = 'http://157.173.116.163:8000/api';
 
   // User
   register(request: UserDtoInterface): Observable<any> {
@@ -23,7 +23,7 @@ export class ApiService {
 
   // Movies
   getAllMovies(): Observable<Movie[]> {
-    return this.http.get<Movie[]>(`${this.url}/movies`)
+    return this.http.get<Movie[]>(`${this.url}/movies`);
   }
 
   sendRating(request: Movie) {
