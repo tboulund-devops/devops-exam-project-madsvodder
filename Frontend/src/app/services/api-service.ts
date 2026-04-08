@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserDtoInterface } from '../interfaces/user-dto-interface';
 import { Observable } from 'rxjs';
@@ -7,10 +7,15 @@ import { Movie } from '../interfaces/movie';
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService {
+export class ApiService implements OnInit {
   private http = inject(HttpClient);
 
   private url = 'http://157.173.116.163:8000/api';
+  private localUrl = 'http://localhost:5102/api';
+
+  ngOnInit() {
+    //this.url = this.localUrl;
+  }
 
   // User
   register(request: UserDtoInterface): Observable<any> {
@@ -28,5 +33,9 @@ export class ApiService {
 
   sendRating(request: Movie) {
     return this.http.put(`${this.url}/movies/` + request.id, request);
+  }
+
+  getAverageRating(movieId: number) {
+    return this.http.get<{ average: number }>(`${this.url}/movies/${movieId}/ratings/average`);
   }
 }

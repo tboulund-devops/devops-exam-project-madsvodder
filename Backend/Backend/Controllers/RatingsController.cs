@@ -26,7 +26,7 @@ public class RatingsController(RatingService ratingService) : ControllerBase
         
         if (average is null) return NotFound("No ratings was found for this movie");
         
-        return Ok(new { movieId, average });
+        return Ok(new { average });
     }
     
     //POST /api/movies/7/ratings

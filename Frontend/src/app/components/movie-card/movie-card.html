@@ -8,12 +8,13 @@
     <h4>
       <b>{{ movie()?.title }}</b>
     </h4>
-    <p>Rating: {{ movie()?.rating }}</p>
+    <p>Rating: {{ rating() }}</p>
     <input
       type="range"
       min="1"
       max="10"
       #ratingInput
+      [value]="rating()"
       (input)="sendRatingRequest(ratingInput.value)"
     />
   </div>

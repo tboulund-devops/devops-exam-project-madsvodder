@@ -1,4 +1,4 @@
-import {Component, inject, input, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit, signal} from '@angular/core';
 import {Movie} from '../../interfaces/movie';
 import {ApiService} from '../../services/api-service';
 
@@ -11,28 +11,28 @@ import {ApiService} from '../../services/api-service';
 })
 export class MovieCard implements OnInit {
   movie = input<Movie>();
+  rating = signal<number>(1); // separate writable signal
 
   apiService: ApiService = inject(ApiService);
 
   ngOnInit() {
-    console.log(this.movie);
+    this.apiService.getAverageRating(this.movie()!.id).subscribe({
+      next: result => this.rating.set(result.average),
+      error: err => console.error(err),
+    });
   }
 
   sendRatingRequest(value: string) {
+    this.rating.set(Number(value)); // update local signal immediately
 
-    // Create new movie with updated rating
     let movie: Movie = {
-      title: this.movie()!.title,
-      id: this.movie()!.id,
+      ...this.movie()!,
       rating: Number(value),
-      year: this.movie()!.year,
-      description: this.movie()!.description,
     }
 
     this.apiService.sendRating(movie).subscribe({
       next: result => console.log(result),
       error: err => console.error(err),
-      complete: () => console.log('done')
-    })
+    });
   }
 }
