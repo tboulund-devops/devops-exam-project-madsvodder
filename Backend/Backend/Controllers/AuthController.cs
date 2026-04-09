@@ -11,7 +11,7 @@ namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService, IFeatureManager featureManager) : ControllerBase
+    public class AuthController(IAuthService authService, IFeatureManager featureManager, FeatureService featureService) : ControllerBase
     {
         
         [HttpPost("register")]
@@ -29,10 +29,10 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDTO request)
         {
-            /*if (!await featureManager.IsEnabledAsync("LoginFeature"))
+            if (! await featureService.IsLoginEnabled())
             {
-                return BadRequest("Login feature is disabled.");
-            }*/
+                return BadRequest("Login is disabled.");
+            }
             
             var response = await authService.LoginAsync(request);
 

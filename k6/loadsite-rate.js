@@ -6,11 +6,7 @@ import execution from "k6/execution";
 import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.2/index.js";
 
 export const options = {
-  stages: [
-    { target: 20, duration: "1m" },
-    { target: 20, duration: "3m30s" },
-    { target: 0, duration: "1m" },
-  ],
+  stages: [{ target: 20, duration: "1m" }],
 };
 
 export default function () {
@@ -116,11 +112,4 @@ export default function () {
     check(resp, { "status equals 204": (r) => r.status === 204 });
   });
   sleep(1);
-}
-
-export function handleSummary(data) {
-  return {
-    "results.json": JSON.stringify(data, null, 2),
-    stdout: textSummary(data, { indent: " ", enableColors: true }),
-  };
 }

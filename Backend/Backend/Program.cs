@@ -4,6 +4,7 @@ using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FeatureManagement;
 using Scalar.AspNetCore;
+using FeatureHubSDK;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,14 +15,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
+// Add feature management service
+IFeatureHubConfig fhConfig = new EdgeFeatureHubConfig(
+    builder.Configuration["FeatureHub:Host"],
+    builder.Configuration["FeatureHub:ApiKey"]
+);
+
+await fhConfig.Init();
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<RatingService>();
-
-// Add feature management service
-
+builder.Services.AddSingleton<IFeatureHubConfig>(fhConfig);
+builder.Services.AddSingleton<FeatureService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
