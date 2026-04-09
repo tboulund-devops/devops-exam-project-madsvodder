@@ -21,7 +21,15 @@ IFeatureHubConfig fhConfig = new EdgeFeatureHubConfig(
     builder.Configuration["FeatureHub:ApiKey"]
 );
 
-await fhConfig.Init();
+try 
+{ 
+    await fhConfig.Init();
+    Console.WriteLine("[FeatureHub] Successfully initialized");
+}
+catch (Exception ex) 
+{ 
+    Console.WriteLine($"[FeatureHub] Init failed: {ex.Message}");
+}
 
 // Add services to the container.
 builder.Services.AddControllers();

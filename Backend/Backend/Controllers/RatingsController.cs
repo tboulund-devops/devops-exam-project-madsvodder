@@ -6,7 +6,7 @@ namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/movies/{movieId:int}/ratings")]
-public class RatingsController(RatingService ratingService) : ControllerBase
+public class RatingsController(RatingService ratingService, FeatureService featureService) : ControllerBase
 {
     
     //GET /api/movies/3/ratings
@@ -33,6 +33,11 @@ public class RatingsController(RatingService ratingService) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(int movieId, Rating rating)
     {
+        if (!await featureService.IsRatingEnabled())
+        {
+            return BadRequest("Rating is not enabled");
+        }
+        
         rating.MovieId = movieId;
         var created = await ratingService.CreateAsync(rating);
         
