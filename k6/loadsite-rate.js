@@ -113,3 +113,10 @@ export default function () {
   });
   sleep(1);
 }
+
+export function handleSummary(data) {
+  return {
+    "results.json": JSON.stringify(data, null, 2),
+    stdout: textSummary(data, { indent: " ", enableColors: true }),
+  };
+}
