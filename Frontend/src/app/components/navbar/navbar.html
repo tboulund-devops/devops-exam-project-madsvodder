@@ -7,7 +7,9 @@
         <b>Welcome {{ getUsername() }}</b>
         <button (click)="logOut()">Sign out</button>
       } @else {
-        <a routerLink="login">Login</a>
+        @if (loginEnabled) {
+          <a routerLink="login">Login</a>
+        }
       }
     </li>
   </ul>

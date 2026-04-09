@@ -1,6 +1,7 @@
 import {Component, inject, input, OnInit, signal} from '@angular/core';
 import {Movie} from '../../interfaces/movie';
 import {ApiService} from '../../services/api-service';
+import {FeatureService} from '../../services/feature-service';
 
 @Component({
   selector: 'app-movie-card',
@@ -13,13 +14,19 @@ export class MovieCard implements OnInit {
   movie = input<Movie>();
   rating = signal<number>(1); // separate writable signal
 
-  apiService: ApiService = inject(ApiService);
+  canRate: boolean = false;
 
-  ngOnInit() {
+  apiService: ApiService = inject(ApiService);
+  featureService: FeatureService = inject(FeatureService);
+
+  async ngOnInit() {
     this.apiService.getAverageRating(this.movie()!.id).subscribe({
       next: result => this.rating.set(result.average),
       error: err => console.error(err),
     });
+
+    this.canRate = await this.featureService.isRatingEnabled();
+    console.log(this.canRate);
   }
 
   sendRatingRequest(value: string) {

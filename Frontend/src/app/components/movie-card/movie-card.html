@@ -9,13 +9,15 @@
       <b>{{ movie()?.title }}</b>
     </h4>
     <p>Rating: {{ rating() }}</p>
-    <input
-      type="range"
-      min="1"
-      max="10"
-      #ratingInput
-      [value]="rating()"
-      (input)="sendRatingRequest(ratingInput.value)"
-    />
+    @if (canRate) {
+      <input
+        type="range"
+        min="1"
+        max="10"
+        #ratingInput
+        [value]="rating()"
+        (input)="sendRatingRequest(ratingInput.value)"
+      />
+    }
   </div>
 </div>
