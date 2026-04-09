@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Shallow clones disabled for better SonarQube analysis
+          fetch-depth: 0
 
       - name: Install required tools
         run: |
@@ -28,9 +28,9 @@ jobs:
           dotnet sonarscanner begin \
           /k:"FreshTomatoes" \
           /d:sonar.host.url="http://62.164.217.208:9000/" \
-          /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48" \
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
           /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
-          /d:sonar.coverage.exclusions="Backend/Migrations/**" \
+          /d:sonar.coverage.exclusions="**/Migrations/**" \
           /d:sonar.qualitygate.wait=true \
           /d:sonar.qualitygate.timeout=300
 
@@ -38,11 +38,13 @@ jobs:
         run: dotnet build
 
       - name: Run unit tests
-        run: dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
+        run: |
+          dotnet test \
+          --collect:"XPlat Code Coverage" \
+          --results-directory TestResults \
+          /p:ExcludeByFile="**/Migrations/*.cs" \
+          /p:Exclude="[*.Migrations]*"
         continue-on-error: true
-
-      - name: Find coverage files
-        run: find . -name "*.xml"
 
       - name: Generate report
         run: |
@@ -54,4 +56,4 @@ jobs:
       - name: Complete Static Code Analysis
         run: |
           dotnet sonarscanner end \
-          /d:sonar.token="sqp_ed4686a48fd81b95847f321179fa350182eb7d48"
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
