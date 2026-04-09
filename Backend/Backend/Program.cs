@@ -2,6 +2,7 @@ using Backend.Data;
 using Backend.Interfaces;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FeatureManagement;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,9 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<RatingService>();
+
+// Add feature management service
+
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

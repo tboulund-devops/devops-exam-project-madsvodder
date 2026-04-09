@@ -10,3 +10,14 @@ services:
       - "4200:80"
     depends_on:
       - web
+
+  featurehub:
+    image: featurehub/party-server:latest
+    restart: always
+    volumes:
+      - ./featurehub:/data
+    environment:
+      FEATUREHUB_PORT: 8085
+      FEATUREHUB_BASE_URL: http://featurehub:8085
+    ports:
+      - 8085:8085
