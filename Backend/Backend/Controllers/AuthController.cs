@@ -11,7 +11,7 @@ namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService, IFeatureManager featureManager, FeatureService featureService) : ControllerBase
+    public class AuthController(IAuthService authService, FeatureService featureService) : ControllerBase
     {
         
         [HttpPost("register")]
