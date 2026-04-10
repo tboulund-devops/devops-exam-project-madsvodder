@@ -42,7 +42,8 @@ jobs:
           dotnet test \
           --collect:"XPlat Code Coverage" \
           --results-directory TestResults \
-          /p:ExcludeByFile="**/Migrations/*.cs;**/Program.cs" \
+          /p:ExcludeByFile="**/Migrations/*.cs" \
+          /p:ExcludeByFile="**/Program.cs" \
           /p:Exclude="[*.Migrations]*"
         continue-on-error: true
 
