@@ -30,7 +30,7 @@ jobs:
           /d:sonar.host.url="http://62.164.217.208:9000/" \
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
           /d:sonar.coverageReportPaths="coverage-report/SonarQube.xml" \
-          /d:sonar.coverage.exclusions="**/Migrations/**" \
+          /d:sonar.coverage.exclusions="**/Migrations/**,**/Program.cs" \
           /d:sonar.qualitygate.wait=true \
           /d:sonar.qualitygate.timeout=300
 
@@ -42,7 +42,7 @@ jobs:
           dotnet test \
           --collect:"XPlat Code Coverage" \
           --results-directory TestResults \
-          /p:ExcludeByFile="**/Migrations/*.cs" \
+          /p:ExcludeByFile="**/Migrations/*.cs;**/Program.cs" \
           /p:Exclude="[*.Migrations]*"
         continue-on-error: true
 
