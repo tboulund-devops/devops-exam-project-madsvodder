@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 using Assert = Xunit.Assert;
+using Backend.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FreshTomatoes.Tests;
 
@@ -26,7 +28,7 @@ public class UnitTest1
         new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["Jwt:Key"] = "super-secret-test-key-super-secret-test-key",
+                ["Jwt:Key"] = "super-secret-test-key-super-secret-test-key-super-secret-test-key-super-secret-test-key",
                 ["Jwt:Issuer"] = "test-issuer",
                 ["Jwt:Audience"] = "test-audience"
             })
@@ -410,6 +412,123 @@ public class UnitTest1
         Assert.Equal("testuser", result!.Username);
         Assert.Equal("test@example.com", result.Email);
         Assert.False(string.IsNullOrWhiteSpace(result.Token));
+    }
+    
+    [Fact]
+    public async Task MoviesController_GetAll_ReturnsOk()
+    {
+        await using var context = CreateContext(nameof(MoviesController_GetAll_ReturnsOk));
+        context.Movies.Add(new Movie
+        {
+            Title = "Inception",
+            Year = 2010,
+            Description = "Dreams"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.GetAll();
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task MoviesController_GetSecond_ReturnsOk()
+    {
+        await using var context = CreateContext(nameof(MoviesController_GetSecond_ReturnsOk));
+        context.Movies.Add(new Movie
+        {
+            Title = "First movie",
+            Year = 2000,
+            Description = "Test"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.GetSecond();
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task MoviesController_GetSpecific_ReturnsNotFound_WhenMovieDoesNotExist()
+    {
+        await using var context = CreateContext(nameof(MoviesController_GetSpecific_ReturnsNotFound_WhenMovieDoesNotExist));
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.GetSpecific(123);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
+    
+    [Fact]
+    public async Task MoviesController_Create_ReturnsCreatedAtAction()
+    {
+        await using var context = CreateContext(nameof(MoviesController_Create_ReturnsCreatedAtAction));
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.Create(new Movie
+        {
+            Title = "Interstellar",
+            Year = 2014,
+            Description = "Space"
+        });
+
+        var createdResult = Assert.IsType<CreatedAtActionResult>(result);
+        Assert.Equal(nameof(MoviesController.GetSpecific), createdResult.ActionName);
+        Assert.NotNull(createdResult.Value);
+    }
+    
+    [Fact]
+    public async Task MoviesController_Update_ReturnsBadRequest_WhenIdDoesNotMatch()
+    {
+        await using var context = CreateContext(nameof(MoviesController_Update_ReturnsBadRequest_WhenIdDoesNotMatch));
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.Update(1, new Movie
+        {
+            Id = 2,
+            Title = "Wrong id",
+            Year = 2024,
+            Description = "Mismatch"
+        });
+
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("Movie not found. Wrong ID?", badRequest.Value);
+    }
+    
+    [Fact]
+    public async Task MoviesController_Delete_ReturnsNotFound_WhenMovieDoesNotExist()
+    {
+        await using var context = CreateContext(nameof(MoviesController_Delete_ReturnsNotFound_WhenMovieDoesNotExist));
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.Delete(999);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
+    
+    [Fact]
+    public async Task MoviesController_Delete_ReturnsNoContent_WhenMovieExists()
+    {
+        await using var context = CreateContext(nameof(MoviesController_Delete_ReturnsNoContent_WhenMovieExists));
+        context.Movies.Add(new Movie
+        {
+            Title = "Delete me",
+            Year = 2001,
+            Description = "Soon gone"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.Delete(1);
+
+        Assert.IsType<NoContentResult>(result);
     }
     
 }
