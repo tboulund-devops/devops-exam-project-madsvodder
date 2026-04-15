@@ -1,4 +1,6 @@
-﻿namespace Backend.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Backend.Models;
 
 public class Rating
 {
@@ -8,5 +10,7 @@ public class Rating
     
     //FK to Movie
     public int MovieId { get; set; }
-    public Movie Movie { get; set; }
+    
+    [JsonIgnore]
+    public Movie? Movie { get; set; }
 }

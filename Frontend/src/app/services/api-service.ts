@@ -31,8 +31,11 @@ export class ApiService implements OnInit {
     return this.http.get<Movie[]>(`${this.url}/movies`);
   }
 
-  sendRating(request: Movie) {
-    return this.http.put(`${this.url}/movies/` + request.id, request);
+  sendRating(movieId: number, score: number, comment?: string) {
+    return this.http.post(`${this.url}/movies/${movieId}/ratings`, {
+      score,
+      comment: comment ?? null
+    });
   }
 
   getAverageRating(movieId: number) {

@@ -18,3 +18,26 @@
 img {
   border-radius: 10px
 }
+
+.stars {
+  display: flex;
+  flex-direction: row-reverse; /* 👈 key trick */
+  gap: 5px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.stars span {
+  color: lightgray;
+  transition: color 0.2s;
+}
+
+.stars span.filled {
+  color: gold;
+}
+
+/* Now this works correctly because order is reversed */
+.stars span:hover,
+.stars span:hover ~ span {
+  color: gold;
+}

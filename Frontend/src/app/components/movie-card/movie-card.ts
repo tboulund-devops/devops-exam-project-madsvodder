@@ -11,10 +11,13 @@ import {FeatureService} from '../../services/feature-service';
   standalone: true,
 })
 export class MovieCard implements OnInit {
+
+
   movie = input<Movie>();
   rating = signal<number>(1); // separate writable signal
 
-  canRate: boolean = false;
+
+  canRate = signal<boolean>(false);
 
   apiService: ApiService = inject(ApiService);
   featureService: FeatureService = inject(FeatureService);
@@ -25,21 +28,29 @@ export class MovieCard implements OnInit {
       error: err => console.error(err),
     });
 
-    this.canRate = await this.featureService.isRatingEnabled();
+    // 2. Set the signal value
+    const enabled = await this.featureService.isRatingEnabled();
+    this.canRate.set(enabled);
     console.log(this.canRate);
   }
 
   sendRatingRequest(value: string) {
-    this.rating.set(Number(value)); // update local signal immediately
+    const score = Number(value);
 
-    let movie: Movie = {
-      ...this.movie()!,
-      rating: Number(value),
-    }
+    this.rating.set(score);
 
-    this.apiService.sendRating(movie).subscribe({
+    this.apiService.sendRating(this.movie()!.id, score).subscribe({
       next: result => console.log(result),
       error: err => console.error(err),
     });
+  }
+
+  displayRating() {
+    return Math.round(this.rating() / 2);
+  }
+
+  rate(star: number) {
+    const value = star * 2;
+    this.sendRatingRequest(value.toString());
   }
 }

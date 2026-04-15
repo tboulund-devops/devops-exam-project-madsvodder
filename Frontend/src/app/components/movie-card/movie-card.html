@@ -4,20 +4,25 @@
     alt="poster"
     style="width: 100%"
   />
+
   <div class="container">
     <h4>
       <b>{{ movie()?.title }}</b>
     </h4>
+
     <p>Rating: {{ rating() }}</p>
-    @if (canRate) {
-      <input
-        type="range"
-        min="1"
-        max="10"
-        #ratingInput
-        [value]="rating()"
-        (input)="sendRatingRequest(ratingInput.value)"
-      />
+
+    @if (canRate()) {
+      <div class="stars">
+        @for (star of [5, 4, 3, 2, 1]; track star) {
+          <span
+            (click)="rate(star)"
+            [class.filled]="star <= displayRating()"
+          >
+    ★
+  </span>
+        }
+      </div>
     }
   </div>
 </div>
