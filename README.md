@@ -64,24 +64,24 @@ Runs daily or can be triggered manually via workflow dispatch.
 **Feature 2:** Basic front end interface
 
 ### Week 9
-**Feature 1:** Rating system
+**Feature 1:** Rating i backend
 
-**Feature 2:** [...]
+**Feature 2:** Rating i frontend
 
 ### Week 10
-**Feature 1:** [...]
+**Feature 1:** Film objekter på frontend
 
-**Feature 2:** [...]
+**Feature 2:** Crud på film
 
 ### Week 11
-**Feature 1:** [...]
+**Feature 1:** JTW login
 
-**Feature 2:** [...]
+**Feature 2:** Navbar med login
 
 ### Week 12
-**Feature 1:** [...]
+**Feature 1:** Register page
 
-**Feature 2:** [...]
+**Feature 2:** Hash user passwords in database
 
 ### Week 13
 **Feature 1:** [...]
@@ -97,9 +97,9 @@ Runs daily or can be triggered manually via workflow dispatch.
 **Feature 2:** [...]
 
 ### Week 16
-**Feature 1:** [...]
+**Feature 1:** Featureflag på login
 
-**Feature 2:** [...]
+**Feature 2:** Featureflag på rating
 
 ### Week 17
 **Feature 1:** [...]
