@@ -1,0 +1,32 @@
+<h2>Opret movie</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div>
+    <label for="title">Titel *</label>
+    <input id="title" type="text" formControlName="title" />
+    @if (form.controls.title.touched && form.controls.title.invalid) {
+      <small>Titel er påkrævet.</small>
+    }
+  </div>
+
+  <div>
+    <label for="year">År *</label>
+    <input id="year" type="number" formControlName="year" />
+    @if (form.controls.year.touched && form.controls.year.invalid) {
+      <small>År skal være gyldigt (min 1888).</small>
+    }
+  </div>
+
+  <div>
+    <label for="description">Beskrivelse</label>
+    <textarea id="description" rows="4" formControlName="description"></textarea>
+  </div>
+
+  @if (error) {
+    <p style="color: firebrick;">{{ error }}</p>
+  }
+
+  <button type="submit" [disabled]="isSubmitting">
+    {{ isSubmitting ? 'Opretter...' : 'Opret' }}
+  </button>
+</form>

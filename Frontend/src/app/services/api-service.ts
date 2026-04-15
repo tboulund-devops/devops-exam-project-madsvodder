@@ -38,6 +38,10 @@ export class ApiService implements OnInit {
     });
   }
 
+  createMovie(movie: { title: string; year: number; description: string }) {
+    return this.http.post(`${this.url}/movies`, movie);
+  }
+
   getAverageRating(movieId: number) {
     return this.http.get<{ average: number }>(`${this.url}/movies/${movieId}/ratings/average`);
   }

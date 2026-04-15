@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import {MovieCard} from '../../components/movie-card/movie-card';
-import {MoviesGrid} from '../../components/movies-grid/movies-grid';
+import { RouterLink } from '@angular/router';
+import { MoviesGrid } from '../../components/movies-grid/movies-grid';
 
 @Component({
   selector: 'app-home-page',
   imports: [
+    RouterLink,
     MoviesGrid
   ],
   templateUrl: './home-page.html',

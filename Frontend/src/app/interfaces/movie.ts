@@ -5,3 +5,5 @@ export interface Movie {
   year: number;
   rating: number;
 }
+
+export type CreateMovieDto = Omit<Movie, 'id' | 'rating'>;
