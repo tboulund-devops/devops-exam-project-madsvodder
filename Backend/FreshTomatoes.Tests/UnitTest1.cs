@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Xunit;
 using Assert = Xunit.Assert;
 using Backend.Controllers;
+using Backend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreshTomatoes.Tests;
@@ -33,7 +34,25 @@ public class UnitTest1
                 ["Jwt:Audience"] = "test-audience"
             })
             .Build();
+    
+    private sealed class FakeAuthService : IAuthService
+    {
+        private readonly User? _registerResult;
+        private readonly AuthResponseDto? _loginResult;
 
+        public FakeAuthService(User? registerResult = null, AuthResponseDto? loginResult = null)
+        {
+            _registerResult = registerResult;
+            _loginResult = loginResult;
+        }
+
+        public Task<User?> RegisterAsync(UserDTO request) => Task.FromResult(_registerResult);
+
+        public Task<AuthResponseDto?> LoginAsync(UserDTO request) => Task.FromResult(_loginResult);
+
+        public string CreateToken(User user) => "fake-token";
+    }
+    
     [Fact]
     public async Task MovieService_CreateAsync_SavesMovie()
     {
@@ -530,5 +549,157 @@ public class UnitTest1
 
         Assert.IsType<NoContentResult>(result);
     }
+    
+    [Fact]
+    public async Task RatingsController_GetAll_ReturnsOk()
+    {
+        await using var context = CreateContext(nameof(RatingsController_GetAll_ReturnsOk));
+        context.Movies.Add(new Movie { Title = "Movie", Year = 2000, Description = "Desc" });
+        await context.SaveChangesAsync();
+
+        context.Ratings.Add(new Rating
+        {
+            MovieId = 1,
+            Score = 4,
+            Comment = "Good"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new RatingsController(new RatingService(context), null!);
+
+        var result = await controller.GetAll(1);
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task RatingsController_GetAverage_ReturnsOk()
+    {
+        await using var context = CreateContext(nameof(RatingsController_GetAverage_ReturnsOk));
+        context.Movies.Add(new Movie { Title = "Movie", Year = 2000, Description = "Desc" });
+        await context.SaveChangesAsync();
+
+        context.Ratings.AddRange(
+            new Rating { MovieId = 1, Score = 2, Comment = "A" },
+            new Rating { MovieId = 1, Score = 4, Comment = "B" }
+        );
+        await context.SaveChangesAsync();
+
+        var controller = new RatingsController(new RatingService(context), null!);
+
+        var result = await controller.GetAverage(1);
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task RatingsController_GetAverage_ReturnsNotFound_WhenNoRatingsExist()
+    {
+        await using var context = CreateContext(nameof(RatingsController_GetAverage_ReturnsNotFound_WhenNoRatingsExist));
+        context.Movies.Add(new Movie { Title = "Movie", Year = 2000, Description = "Desc" });
+        await context.SaveChangesAsync();
+
+        var controller = new RatingsController(new RatingService(context), null!);
+
+        var result = await controller.GetAverage(1);
+
+        var notFound = Assert.IsType<NotFoundObjectResult>(result);
+        Assert.Equal("No ratings was found for this movie", notFound.Value);
+    }
+    
+    [Fact]
+    public async Task RatingsController_Delete_ReturnsNoContent_WhenRatingExists()
+    {
+        await using var context = CreateContext(nameof(RatingsController_Delete_ReturnsNoContent_WhenRatingExists));
+        context.Movies.Add(new Movie { Title = "Movie", Year = 2000, Description = "Desc" });
+        await context.SaveChangesAsync();
+
+        context.Ratings.Add(new Rating
+        {
+            MovieId = 1,
+            Score = 5,
+            Comment = "Delete me"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new RatingsController(new RatingService(context), null!);
+
+        var result = await controller.Delete(1, 1);
+
+        Assert.IsType<NoContentResult>(result);
+    }
+    
+    [Fact]
+    public async Task RatingsController_Delete_ReturnsNotFound_WhenRatingDoesNotExist()
+    {
+        await using var context = CreateContext(nameof(RatingsController_Delete_ReturnsNotFound_WhenRatingDoesNotExist));
+        context.Movies.Add(new Movie { Title = "Movie", Year = 2000, Description = "Desc" });
+        await context.SaveChangesAsync();
+
+        var controller = new RatingsController(new RatingService(context), null!);
+
+        var result = await controller.Delete(1, 999);
+
+        Assert.IsType<NotFoundResult>(result);
+    }
+    
+    [Fact]
+    public async Task AuthController_Register_ReturnsOk()
+    {
+        var controller = new AuthController(
+            new FakeAuthService(new User
+            {
+                Username = "testuser",
+                Email = "test@example.com",
+                PasswordHash = "hash"
+            }),
+            null!
+        );
+
+        var result = await controller.Register(new UserDTO
+        {
+            Username = "testuser",
+            Email = "test@example.com",
+            Password = "Password123!"
+        });
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task AuthController_Register_ReturnsBadRequest_WhenUserAlreadyExists()
+    {
+        var controller = new AuthController(new FakeAuthService(null), null!);
+
+        var result = await controller.Register(new UserDTO
+        {
+            Username = "testuser",
+            Email = "test@example.com",
+            Password = "Password123!"
+        });
+
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result);
+        Assert.Equal("Username or email already exists.", badRequest.Value);
+    }
+    
+    [Fact]
+    public async Task AuthController_Check_ReturnsOk()
+    {
+        var controller = new AuthController(new FakeAuthService(), null!);
+
+        var result = await controller.Check(new UserDTO
+        {
+            Username = "testuser",
+            Email = "test@example.com",
+            Password = "Password123!"
+        });
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        Assert.Equal("Hey this actually works", okResult.Value);
+    }
+    
     
 }
