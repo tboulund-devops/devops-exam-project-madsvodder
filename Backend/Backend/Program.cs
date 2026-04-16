@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
-// Add feature management service
+// Add a feature management service
 IFeatureHubConfig fhConfig = new EdgeFeatureHubConfig(
     builder.Configuration["FeatureHub:Host"],
     builder.Configuration["FeatureHub:ApiKey"]
@@ -57,8 +57,6 @@ app.UseCors(options =>
         .AllowAnyHeader()
         .AllowAnyMethod()
 );
-
-//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

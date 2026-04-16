@@ -15,15 +15,7 @@ public class MoviesController(MovieService movieService) : ControllerBase
         var movies = await movieService.GetAllAsync();
         return Ok(movies);
     }
-
-    // GET/api/movies/ - Get second movie
-    [HttpGet("GetSecond")]
-    public async Task<IActionResult> GetSecond()
-    {
-        // Kommentar
-        var movie = await movieService.GetSecondAsync();
-        return Ok(movie);
-    }
+    
     
     //GET /api/movies/8
     [HttpGet("{id:int}")]
