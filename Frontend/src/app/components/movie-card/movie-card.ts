@@ -37,8 +37,6 @@ export class MovieCard implements OnInit {
   sendRatingRequest(value: string) {
     const score = Number(value);
 
-    this.rating.set(score);
-
     this.apiService.sendRating(this.movie()!.id, score).subscribe({
       next: result => console.log(result),
       error: err => console.error(err),

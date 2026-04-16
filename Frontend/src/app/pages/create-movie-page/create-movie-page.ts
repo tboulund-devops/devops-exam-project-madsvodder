@@ -10,6 +10,7 @@ import { ApiService } from '../../services/api-service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './create-movie-page.html',
+  styleUrl: './create-movie-page.css',
 })
 export class CreateMoviePage {
   private fb = inject(FormBuilder);

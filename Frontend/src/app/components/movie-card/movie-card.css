@@ -21,7 +21,7 @@ img {
 
 .stars {
   display: flex;
-  flex-direction: row-reverse; /* 👈 key trick */
+  flex-direction: row-reverse; /* reverse stars */
   gap: 5px;
   cursor: pointer;
   font-size: 24px;
@@ -36,7 +36,7 @@ img {
   color: gold;
 }
 
-/* Now this works correctly because order is reversed */
+/* this works correctly because order is reversed */
 .stars span:hover,
 .stars span:hover ~ span {
   color: gold;
