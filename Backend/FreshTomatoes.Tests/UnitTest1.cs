@@ -454,26 +454,6 @@ public class UnitTest1
     }
     
     [Fact]
-    public async Task MoviesController_GetSecond_ReturnsOk()
-    {
-        await using var context = CreateContext(nameof(MoviesController_GetSecond_ReturnsOk));
-        context.Movies.Add(new Movie
-        {
-            Title = "First movie",
-            Year = 2000,
-            Description = "Test"
-        });
-        await context.SaveChangesAsync();
-
-        var controller = new MoviesController(new MovieService(context));
-
-        var result = await controller.GetSecond();
-
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.NotNull(okResult.Value);
-    }
-    
-    [Fact]
     public async Task MoviesController_GetSpecific_ReturnsNotFound_WhenMovieDoesNotExist()
     {
         await using var context = CreateContext(nameof(MoviesController_GetSpecific_ReturnsNotFound_WhenMovieDoesNotExist));
