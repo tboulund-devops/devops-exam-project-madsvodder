@@ -1,9 +1,10 @@
 <div class="card">
-  <img
-    src="https://m.media-amazon.com/images/M/MV5BNjI3NDE2ODkzN15BMl5BanBnXkFtZTgwMzg0OTk1MDE@._V1_FMjpg_UX1000_.jpg"
-    alt="poster"
-    style="width: 100%"
-  />
+  <div class="poster-container">
+    <img
+      [src]="movie()?.posterUrl"
+      alt="poster"
+    />
+  </div>
 
   <div class="container">
     <h4>
@@ -19,8 +20,8 @@
             (click)="rate(star)"
             [class.filled]="star <= displayRatingNumber()"
           >
-    ★
-  </span>
+            ★
+          </span>
         }
       </div>
     }

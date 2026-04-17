@@ -4,6 +4,7 @@ export interface Movie {
   description: string;
   year: number;
   rating: number;
+  posterUrl: string;
 }
 
 export type CreateMovieDto = Omit<Movie, 'id' | 'rating'>;
