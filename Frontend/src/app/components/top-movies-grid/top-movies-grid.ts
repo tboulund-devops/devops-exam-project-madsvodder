@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Movie} from '../../interfaces/movie';
 import {ApiService} from '../../services/api-service';
 import {map, Observable} from 'rxjs';
@@ -14,18 +14,16 @@ import {MovieCard} from '../movie-card/movie-card';
   templateUrl: './top-movies-grid.html',
   styleUrl: './top-movies-grid.css',
 })
-export class TopMoviesGrid {
+export class TopMoviesGrid implements OnInit{
   movies$!: Observable<Movie[]>;
 
   apiService: ApiService = inject(ApiService);
 
   ngOnInit() {
-    this.movies$ = this.apiService.getAllMovies().pipe(
-      map(movies => movies
-        .sort((a, b) => b.rating - a.rating)
-        .slice(0, 3)
+    this.movies$ = this.apiService.getTopMovies().pipe(
+      map(movies =>
+        [...movies].sort((a, b) => b.rating - a.rating)
       )
     );
-    console.log(this.movies$);
   }
 }
