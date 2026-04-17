@@ -29,6 +29,10 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
             entity.Property(m => m.Description)
                 .IsRequired()
                 .HasMaxLength(2000);
+            
+            entity.Property(m => m.PosterUrl)
+                .IsRequired()
+                .HasMaxLength(2000);
 
             entity.Property(m => m.Year).IsRequired();
         });
