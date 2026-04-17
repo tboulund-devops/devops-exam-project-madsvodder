@@ -16,6 +16,14 @@ public class MoviesController(MovieService movieService) : ControllerBase
         return Ok(movies);
     }
     
+    // Gets top 5
+    [HttpGet("top")]
+    public async Task<IActionResult> GetTop()
+    {
+        var movies = await movieService.GetTop();
+        return Ok(movies);
+    }
+    
     
     //GET /api/movies/8
     [HttpGet("{id:int}")]

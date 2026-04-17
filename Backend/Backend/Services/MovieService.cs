@@ -20,6 +20,26 @@ public class MovieService
             .ToListAsync();
     }
     
+    public async Task<List<Movie>> GetTop()
+    {
+        var topMovieIds = await _context.Ratings
+            .GroupBy(r => r.MovieId)
+            .Select(g => new
+            {
+                MovieId = g.Key,
+                AverageScore = g.Average(r => r.Score)
+            })
+            .OrderByDescending(x => x.AverageScore)
+            .Take(5)
+            .Select(x => x.MovieId)
+            .ToListAsync();
+
+        return await _context.Movies
+            .AsNoTracking()
+            .Where(m => topMovieIds.Contains(m.Id))
+            .ToListAsync();
+    }
+    
     public async Task<Movie?> GetByIdAsync(int id)
     {
         return await _context.Movies
