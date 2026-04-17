@@ -43,12 +43,15 @@ export class MovieCard implements OnInit {
     });
   }
 
-  displayRating() {
-    return Math.round(this.rating() / 2);
+  displayRating(): string {
+    return this.rating().toFixed(1);
+  }
+
+  displayRatingNumber(): number {
+    return parseFloat(this.rating().toFixed(1));
   }
 
   rate(star: number) {
-    const value = star * 2;
-    this.sendRatingRequest(value.toString());
+    this.sendRatingRequest(star.toString());
   }
 }

@@ -5,7 +5,6 @@ import { MoviesGrid } from '../../components/movies-grid/movies-grid';
 @Component({
   selector: 'app-home-page',
   imports: [
-    RouterLink,
     MoviesGrid
   ],
   templateUrl: './home-page.html',
