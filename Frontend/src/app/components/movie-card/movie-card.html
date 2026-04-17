@@ -10,14 +10,14 @@
       <b>{{ movie()?.title }}</b>
     </h4>
 
-    <p>Rating: {{ rating() }}</p>
+    <p>Rating: {{ displayRating() }}</p>
 
     @if (canRate()) {
       <div class="stars">
         @for (star of [5, 4, 3, 2, 1]; track star) {
           <span
             (click)="rate(star)"
-            [class.filled]="star <= displayRating()"
+            [class.filled]="star <= displayRatingNumber()"
           >
     ★
   </span>
