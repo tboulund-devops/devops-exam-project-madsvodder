@@ -23,7 +23,8 @@ export class CreateMoviePage {
   form = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
     year: [new Date().getFullYear(), [Validators.required, Validators.min(1888)]],
-    description: [''],
+    description: ['', [Validators.required]],
+    posterUrl: ['', [Validators.required]],
   });
 
   submit() {

@@ -3,6 +3,30 @@
   height: 300px;
   background-color: #1a1a2e;
   overflow: hidden;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+.poster-container:hover .overlay {
+  opacity: 1;
 }
 
 .poster-container img {
