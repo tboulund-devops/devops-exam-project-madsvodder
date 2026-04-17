@@ -1,0 +1,5 @@
+{
+  "solution": "Backend.sln",
+  "project": "Backend/Backend.csproj",
+  "test-projects": ["FreshTomatoes.Tests/FreshTomatoes.Tests.csproj"]
+}
