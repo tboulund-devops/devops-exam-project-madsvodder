@@ -681,5 +681,138 @@ public class UnitTest1
         Assert.Equal("Hey this actually works", okResult.Value);
     }
     
+    [Fact]
+    public async Task MovieService_GetAllAsync_ReturnsMoviesOrderedById()
+    {
+        await using var context = CreateContext(nameof(MovieService_GetAllAsync_ReturnsMoviesOrderedById));
+        context.Movies.AddRange(
+            new Movie { Title = "B", Year = 2001, Description = "B" },
+            new Movie { Title = "A", Year = 2000, Description = "A" }
+        );
+        await context.SaveChangesAsync();
+
+        var service = new MovieService(context);
+
+        var movies = await service.GetAllAsync();
+
+        Assert.Equal(2, movies.Count);
+        Assert.True(movies[0].Id < movies[1].Id);
+    }
+    
+    [Fact]
+    public async Task MovieService_GetTop_ReturnsTopRatedMovies()
+    {
+        await using var context = CreateContext(nameof(MovieService_GetTop_ReturnsTopRatedMovies));
+        context.Movies.AddRange(
+            new Movie { Title = "Movie 1", Year = 2000, Description = "A" },
+            new Movie { Title = "Movie 2", Year = 2001, Description = "B" },
+            new Movie { Title = "Movie 3", Year = 2002, Description = "C" }
+        );
+        await context.SaveChangesAsync();
+
+        context.Ratings.AddRange(
+            new Rating { MovieId = 1, Score = 5, Comment = "Top" },
+            new Rating { MovieId = 1, Score = 4, Comment = "Top" },
+            new Rating { MovieId = 2, Score = 1, Comment = "Low" },
+            new Rating { MovieId = 3, Score = 3, Comment = "Mid" }
+        );
+        await context.SaveChangesAsync();
+
+        var service = new MovieService(context);
+
+        var topMovies = await service.GetTop();
+
+        Assert.NotEmpty(topMovies);
+        Assert.Contains(topMovies, m => m.Id == 1);
+    }
+    
+    [Fact]
+    public async Task MovieService_CreateAsync_ResetsIdToZeroBeforeSave()
+    {
+        await using var context = CreateContext(nameof(MovieService_CreateAsync_ResetsIdToZeroBeforeSave));
+        var service = new MovieService(context);
+
+        var movie = new Movie
+        {
+            Id = 999,
+            Title = "Inception",
+            Year = 2010,
+            Description = "Dreams inside dreams"
+        };
+
+        var created = await service.CreateAsync(movie);
+
+        Assert.NotEqual(999, created.Id);
+        Assert.NotEqual(0, created.Id);
+    }
+    
+    [Fact]
+    public async Task MoviesController_GetSpecific_ReturnsOk_WhenMovieExists()
+    {
+        await using var context = CreateContext(nameof(MoviesController_GetSpecific_ReturnsOk_WhenMovieExists));
+        context.Movies.Add(new Movie
+        {
+            Title = "Interstellar",
+            Year = 2014,
+            Description = "Space"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.GetSpecific(1);
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task MoviesController_GetTop_ReturnsOk()
+    {
+        await using var context = CreateContext(nameof(MoviesController_GetTop_ReturnsOk));
+        context.Movies.AddRange(
+            new Movie { Title = "Movie 1", Year = 2000, Description = "A" },
+            new Movie { Title = "Movie 2", Year = 2001, Description = "B" }
+        );
+        await context.SaveChangesAsync();
+
+        context.Ratings.AddRange(
+            new Rating { MovieId = 1, Score = 5, Comment = "Great" },
+            new Rating { MovieId = 2, Score = 1, Comment = "Bad" }
+        );
+        await context.SaveChangesAsync();
+
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.GetTop();
+
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult.Value);
+    }
+    
+    [Fact]
+    public async Task MoviesController_Update_ReturnsNoContent_WhenUpdateSucceeds()
+    {
+        await using var context = CreateContext(nameof(MoviesController_Update_ReturnsNoContent_WhenUpdateSucceeds));
+        context.Movies.Add(new Movie
+        {
+            Title = "Old title",
+            Year = 2000,
+            Description = "Old description"
+        });
+        await context.SaveChangesAsync();
+
+        var controller = new MoviesController(new MovieService(context));
+
+        var result = await controller.Update(1, new Movie
+        {
+            Id = 1,
+            Title = "New title",
+            Year = 2024,
+            Description = "New description"
+        });
+
+        Assert.IsType<NoContentResult>(result);
+    }
     
 }
