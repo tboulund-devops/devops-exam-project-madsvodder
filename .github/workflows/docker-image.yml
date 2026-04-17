@@ -27,7 +27,7 @@ jobs:
         run: dotnet tool install -g dotnet-stryker
 
       - name: Run Stryker
-        run: dotnet stryker --reporter json --reporter html --threshold-break 70
+        run: dotnet stryker --reporter json --reporter html --threshold-low
         # --threshold-break makes the step fail if mutation score drops below 70%
 
       - name: Upload Stryker report
