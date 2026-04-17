@@ -31,6 +31,10 @@ export class ApiService implements OnInit {
     return this.http.get<Movie[]>(`${this.url}/movies`);
   }
 
+  getTopMovies(): Observable<Movie[]> {
+    return this.http.get<Movie[]>(`${this.url}/movies/top`);
+  }
+
   sendRating(movieId: number, score: number, comment?: string) {
     return this.http.post(`${this.url}/movies/${movieId}/ratings`, {
       score,
