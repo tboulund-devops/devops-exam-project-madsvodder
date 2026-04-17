@@ -74,7 +74,7 @@ Runs daily or can be triggered manually via workflow dispatch.
 **Feature 2:** Crud på film
 
 ### Week 11
-**Feature 1:** JTW login
+**Feature 1:** JWT login
 
 **Feature 2:** Navbar med login
 
@@ -84,24 +84,19 @@ Runs daily or can be triggered manually via workflow dispatch.
 **Feature 2:** Hash user passwords in database
 
 ### Week 13
-**Feature 1:** [...]
+**Feature 1:** Vis posters på film (Frontend)
 
-**Feature 2:** [...]
+**Feature 2:** View movie description (Frontend)
 
 ### Week 14
 *Easter vacation - nothing planned.*
 
 ### Week 15
-**Feature 1:** [...]
+**Feature 1:** Vis top movies
 
-**Feature 2:** [...]
+**Feature 2:** Search bar til movies
 
 ### Week 16
 **Feature 1:** Featureflag på login
 
 **Feature 2:** Featureflag på rating
-
-### Week 17
-**Feature 1:** [...]
-
-**Feature 2:** [...]
