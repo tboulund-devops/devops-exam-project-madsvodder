@@ -19,6 +19,7 @@ export class TopMoviesGrid implements OnInit{
 
   apiService: ApiService = inject(ApiService);
 
+  // Init
   ngOnInit() {
     this.movies$ = this.apiService.getTopMovies().pipe(
       map(movies =>
