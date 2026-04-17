@@ -1,5 +1,11 @@
 {
-  "solution": "Backend.sln",
-  "project": "Backend/Backend.csproj",
-  "test-projects": ["FreshTomatoes.Tests/FreshTomatoes.Tests.csproj"]
+  "stryker-config": {
+    "solution": "Backend.sln",
+    "project": "Backend/Backend.csproj",
+    "test-projects": ["FreshTomatoes.Tests/FreshTomatoes.Tests.csproj"],
+    "reporters": ["html", "json"],
+    "thresholds": {
+      "low": 70
+    }
+  }
 }
