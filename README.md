@@ -45,6 +45,17 @@ Creates daily repository status reports to track project health and activity. Th
 
 Runs daily or can be triggered manually via workflow dispatch.
 
+### Code Simplifier
+**File:** `.github/workflows/code-simplifier.md`
+
+Analyzes recently modified code and creates pull requests with simplifications that improve clarity, consistency, and maintainability. This workflow:
+- Scans code changes from the last 24 hours
+- Identifies opportunities for simplification without changing functionality
+- Creates pull requests with improved code
+- Maintains code quality and consistency across the project
+
+Runs daily or can be triggered manually via workflow dispatch.
+
 ## Feature plan
 
 ### Week 5
